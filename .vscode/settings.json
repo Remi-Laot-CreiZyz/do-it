@@ -1,0 +1,25 @@
+{
+  "cppcheck.enable": true,
+  "cppcheck.lintingEnabled": true,
+  "files.associations": {
+      "iosfwd": "cpp",
+      "*.tcc": "cpp",
+      "cctype": "cpp",
+      "clocale": "cpp",
+      "cstdint": "cpp",
+      "cstdio": "cpp",
+      "cstdlib": "cpp",
+      "cwchar": "cpp",
+      "cwctype": "cpp",
+      "exception": "cpp",
+      "initializer_list": "cpp",
+      "limits": "cpp",
+      "ostream": "cpp",
+      "stdexcept": "cpp",
+      "streambuf": "cpp",
+      "string_view": "cpp",
+      "system_error": "cpp",
+      "type_traits": "cpp",
+      "typeinfo": "cpp"
+  }
+}
