@@ -1,5 +1,5 @@
-#include "extern/catch.hpp"
-#include "src/algebra/vector.hpp"
+#include "catch/catch.hpp"
+#include "algebra/vector.hpp"
 
 using namespace algebra;
 

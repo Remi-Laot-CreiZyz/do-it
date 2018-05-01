@@ -1,4 +1,4 @@
-#include "vector.hpp"
+#include "algebra/vector.hpp"
 
 using namespace algebra;
 

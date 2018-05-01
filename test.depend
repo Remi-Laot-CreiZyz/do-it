@@ -1,0 +1,2 @@
+run.o: test/run.cpp lib/catch/catch.hpp test/./algebra/vector.cpp \
+ inc/algebra/vector.hpp

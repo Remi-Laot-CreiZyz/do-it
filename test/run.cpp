@@ -1,4 +1,4 @@
 #define CATCH_CONFIG_MAIN
-#include "extern/catch.hpp"
+#include "catch/catch.hpp"
 
-#include "test/algebra/vector.cpp"
+#include "./algebra/vector.cpp"
