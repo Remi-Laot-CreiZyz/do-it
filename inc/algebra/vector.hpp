@@ -38,8 +38,7 @@ namespace algebra
 
   extern vector_t cross(const vector_t & u, const vector_t & v);
   extern float dot(const vector_t & u, const vector_t & v);
+  extern std::ostream & operator<<(std::ostream & stream, const algebra::vector_t & vector);
 }
-
-extern std::ostream & operator<<(std::ostream & stream, const algebra::vector_t & vector);
       
 #endif

@@ -3,9 +3,13 @@ LD        := g++
 
 # recursive wildcard definition
 
-rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 # options definition
+
+OUTDIR	:= out
+BUILDDIR	:= build
+BUILDDIR_TEST	:= $(BUILDDIR)/test
 
 EXEC      := doit
 FLAGS     := -Wall
@@ -14,41 +18,65 @@ CXXFLAGS  += -Wextra -Wwrite-strings -Wno-parentheses
 CXXFLAGS  += -Wpedantic -Warray-bounds -Weffc++
 LDFLAGS   := $(FLAGS)
 INC       := -I inc -I lib
-SRC       := $(call, rwildcard, src/, *.cpp)
-OBJ       := $(SRC:src/%.cpp=tmp/src/%.o)
-DEPENDENCY_LIST := $(EXEC).depend
+SRC       := $(call rwildcard,src/,*.cpp)
+OBJ       := $(SRC:src/%.cpp=$(BUILDDIR)/%.o)
+DEPENDENCY_LIST := $(BUILDDIR)/.depend
 
-EXEC_TEST     := test
+EXEC_TEST     := all-tests
 FLAGS_TEST    := -Wall
 CXXFLAGS_TEST := $(FLAGS_TEST)
 CXXFLAGS_TEST += -Wextra -Wwrite-strings -Wno-parentheses
 LDFLAGS_TEST  := $(FLAGS_TEST)
 INC_TEST      := $(INC)
-SRC_TEST      := $(wildcard test/*.cpp)
-OBJ_TEST      := $(SRC_TEST:test/%.cpp=tmp/test/%.o)
-DEPENDENCY_LIST_TEST := $(EXEC_TEST).depend
+SRC_TEST      := $(wildcard *.cpp)
+OBJ_TEST      := $(OBJ) $(SRC_TEST:%.cpp=$(BUILDDIR_TEST)/%.o)
+DEPENDENCY_LIST_TEST := $(BUILDDIR_TEST)/.depend
+
+all: dir $(EXEC)
+
+run-all-tests : build_tests
+	@$(OUTDIR)/$(EXEC_TEST)
+
+build_tests: dir $(EXEC_TEST)
 
 # auto generate dependencies
 # suited for GCC/GXX compilers
 
-depend: $(DEPENDENCY_LIST)
+# depend: $(DEPENDENCY_LIST)
+# 
+# $(DEPENDENCY_LIST): $(SRC)
+# 	@echo $(SRC)
+# 	@rm -f ./$(DEPENDENCY_LIST)
+# 	@$(CXX) $(CXXFLAGS) $(INC) -MM $^ -MF ./$(DEPENDENCY_LIST)
+# 
+# include $(DEPENDENCY_LIST)
 
-$(DEPENDENCY_LIST): $(SRC)
-	echo $(SRC)
-	@rm -f ./$(DEPENDENCY_LIST)
-	@$(CXX) $(CXXFLAGS) $(INC) -MM $^ -MF ./$(DEPENDENCY_LIST)
+# depend: $(DEPENDENCY_LIST_TEST)
+# 
+# $(DEPENDENCY_LIST_TEST): $(SRC_TEST)
+# 	@echo "computing test dependencies :"
+# 	$(CXX) $(INC_TEST) -MM -MT $^ -MF $(DEPENDENCY_LIST_TEST)
+# 
+# include $(DEPENDENCY_LIST_TEST)
 
-include $(DEPENDENCY_LIST)
+# make rules
 
-dependtest: $(DEPENDENCY_LIST_TEST)
+$(EXEC_TEST): $(BUILDDIR_TEST)/run.o $(OBJ_TEST)
+	$(LD) $(LDFLAGS_TEST) -o $(OUTDIR)/$@ $^
 
-$(DEPENDENCY_LIST_TEST): $(SRC_TEST)
-	echo $(SRC_TEST)
-	@rm -f ./$(DEPENDENCY_LIST_TEST)
-	@$(CXX) $(CXXFLAGS_TEST) $(INC_TEST) -MM $^ -MF ./$(DEPENDENCY_LIST_TEST)
+$(BUILDDIR_TEST)/%.o: test/%.cpp
+	$(CXX) $(CXXFLAGS_TEST) $(INC_TEST) -o $@ -c $<
 
-include $(DEPENDENCY_LIST_TEST)
+$(BUILDDIR)/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) $(INC) -o $@ -c $<
+
+dir:
+	@mkdir -p $(BUILDDIR) $(dir $(OBJ)) $(BUILDDIR_TEST) $(dir $(OBJ_TEST))
+
+.PHONY: clean mrproper
 
 clean:
-	rm -f *.depend
-	rm -Rf tmp/*
+	@rm -Rf $(BUILDDIR)/* $(BUILDDIR_TEST)/*
+
+mrproper: clean
+	@rm -f $(OUTDIR)/*

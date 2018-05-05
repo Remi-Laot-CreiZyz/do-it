@@ -59,7 +59,7 @@ vector_t vector_t::operator/(const float scalar) const
 }
 /* Tools */
 // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- //
-std::ostream & operator<<(std::ostream & stream, const algebra::vector_t & vector)
+std::ostream & algebra::operator<<(std::ostream & stream, const algebra::vector_t & vector)
 {
   return stream << "vector_t::(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 }
