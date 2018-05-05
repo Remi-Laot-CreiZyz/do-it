@@ -71,7 +71,7 @@ $(BUILDDIR)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) $(INC) -o $@ -c $<
 
 dir:
-	@mkdir -p $(BUILDDIR) $(dir $(OBJ)) $(BUILDDIR_TEST) $(dir $(OBJ_TEST))
+	@mkdir -p $(BUILDDIR) $(dir $(OBJ)) $(BUILDDIR_TEST) $(dir $(OBJ_TEST)) $(OUTDIR)
 
 .PHONY: clean mrproper
 
