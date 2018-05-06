@@ -1,5 +1,5 @@
-#ifndef _DOIT_VECTOR_
-#define _DOIT_VECTOR_
+#ifndef _DOIT_ALGEBRA_VECTOR_
+#define _DOIT_ALGEBRA_VECTOR_
 
 #include <ostream>
 

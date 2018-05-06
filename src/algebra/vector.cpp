@@ -1,4 +1,5 @@
 #include "algebra/vector.hpp"
+#include "algebra/tools.hpp"
 
 using namespace algebra;
 
@@ -26,12 +27,12 @@ vector_t vector_t::operator-(const vector_t & other) const
 // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- //
 bool vector_t::operator==(const vector_t & other) const
 {
-  return (x == other.x) && (y == other.y) && (z == other.z);
+  return (fequals(x, other.x)) && (fequals(y, other.y)) && (fequals(z, other.z));
 }
 // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- //
 bool vector_t::operator!=(const vector_t & other) const
 {
-  return (x != other.x) || (y != other.y) || (z != other.z);
+  return (!fequals(x, other.x)) || !(fequals(y, other.y)) || !(fequals(z, other.z));
 }
 // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- //
 vector_t algebra::cross(const vector_t & u, const vector_t & v)

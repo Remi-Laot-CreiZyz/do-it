@@ -39,5 +39,4 @@
 !.vscode/extensions.json
 
 # Temp files
-tmp/
 build/
