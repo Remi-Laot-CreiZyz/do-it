@@ -21,4 +21,4 @@ make run-tests
 ```
 
 ## Dependencies
-As of right now, this project has no dependency.
+- Catch (https://github.com/catchorg/Catch2) : a header-only unit test framework for C++. As the Catch team provides a packed header, I included it to the repository (lib/catch) for more convenience.
